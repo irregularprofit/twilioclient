@@ -79,5 +79,10 @@
     </array>
     <key>CFBundleShortVersionString</key>
     <string>0.0.1</string>
+    <key>UIBackgroundModes</key>
+    <array>
+      <string>voip</string>
+      <string>audio</string>
+    </array>
   </dict>
 </plist>

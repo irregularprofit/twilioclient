@@ -28,4 +28,9 @@
     </author>
     <content src="index.html" />
     <access origin="*" />
+    <widget>
+        <feature name="TCPlugin">
+            <param name="ios-package" value="TCPlugin" />
+        </feature>
+    </widget>
 </widget>
