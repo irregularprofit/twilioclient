@@ -5,8 +5,8 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
+		171CBA83A3BD4D5B8B161323 /* CDVVibration.m in Sources */ = {isa = PBXBuildFile; fileRef = 55EF2166C7B24C95A64D2503 /* CDVVibration.m */; };
 		1D3623260D0F684500981E51 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* AppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1F766FE113BBADB100FB74C0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1F766FDC13BBADB100FB74C0 /* Localizable.strings */; };
@@ -28,6 +28,7 @@
 		30FC414916E50CA1004E6F35 /* icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 30FC414816E50CA1004E6F35 /* icon-72@2x.png */; };
 		5AEE5B35173C68D80009041E /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AEE5B34173C68D80009041E /* CoreLocation.framework */; };
 		5B1594DD16A7569C00FEF299 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B1594DC16A7569C00FEF299 /* AssetsLibrary.framework */; };
+		767BB60A46214CE4868D8C7A /* CDVNotification.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 42757BD293134346B06A4415 /* CDVNotification.bundle */; };
 		7E7966DE1810823500FA85AD /* icon-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7966D41810823500FA85AD /* icon-40.png */; };
 		7E7966DF1810823500FA85AD /* icon-40@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7966D51810823500FA85AD /* icon-40@2x.png */; };
 		7E7966E01810823500FA85AD /* icon-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7966D61810823500FA85AD /* icon-50.png */; };
@@ -40,6 +41,7 @@
 		7E7966E71810823500FA85AD /* icon-small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7966DD1810823500FA85AD /* icon-small@2x.png */; };
 		8D160B74751640488CDBA61C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99A6CA52C16044638A9B0B6B /* SystemConfiguration.framework */; };
 		A2F4E9D205BB48C88D900096 /* TCPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EA884559809F4DF981958B5D /* TCPlugin.m */; };
+		A5EED52212A642D5A47ACEFE /* CDVNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = C44F3CB08F8E4A2997FD8DCE /* CDVNotification.m */; };
 		BD696B6DB4344D02ACEAC0BA /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E8E53A5B8B44E199E725BF1 /* CFNetwork.framework */; };
 		BF9CC49719A5D2C4001258E8 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BF9CC49419A5D2C4001258E8 /* libcrypto.a */; };
 		BF9CC49819A5D2C4001258E8 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BF9CC49519A5D2C4001258E8 /* libssl.a */; };
@@ -67,6 +69,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0D225ABCB48D4773A745FEF8 /* CDVNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVNotification.h; path = org.apache.cordova.dialogs/CDVNotification.h; sourceTree = "<group>"; };
 		1D3623240D0F684500981E51 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		1D6058910D05DD3D006BFB54 /* TwilioClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TwilioClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -96,6 +99,8 @@
 		32CA4F630368D1EE00C91783 /* TwilioClient-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TwilioClient-Prefix.pch"; sourceTree = "<group>"; };
 		3D5F58A4B0AC4AFDA1B8CFA1 /* AudioToolbox.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		4272C68D3AA9467DA9978A2E /* AVFoundation.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		42757BD293134346B06A4415 /* CDVNotification.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = CDVNotification.bundle; sourceTree = "<group>"; };
+		55EF2166C7B24C95A64D2503 /* CDVVibration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVVibration.m; path = org.apache.cordova.vibration/CDVVibration.m; sourceTree = "<group>"; };
 		5AEE5B34173C68D80009041E /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		5B1594DC16A7569C00FEF299 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		5E910C02B4844387B2815447 /* TCPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TCPlugin.h; path = com.phonegap.plugins.twilioclient/TCPlugin.h; sourceTree = "<group>"; };
@@ -111,9 +116,11 @@
 		7E7966DD1810823500FA85AD /* icon-small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-small@2x.png"; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* TwilioClient-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "TwilioClient-Info.plist"; path = "../TwilioClient-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		99A6CA52C16044638A9B0B6B /* SystemConfiguration.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		A7D919CB37564A0D9CC60BBA /* CDVVibration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVVibration.h; path = org.apache.cordova.vibration/CDVVibration.h; sourceTree = "<group>"; };
 		BF9CC49419A5D2C4001258E8 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = TwilioClient/Plugins/com.phonegap.plugins.twilioclient/libcrypto.a; sourceTree = "<group>"; };
 		BF9CC49519A5D2C4001258E8 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = TwilioClient/Plugins/com.phonegap.plugins.twilioclient/libssl.a; sourceTree = "<group>"; };
 		BF9CC49619A5D2C4001258E8 /* libTwilioClient.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libTwilioClient.a; path = TwilioClient/Plugins/com.phonegap.plugins.twilioclient/libTwilioClient.a; sourceTree = "<group>"; };
+		C44F3CB08F8E4A2997FD8DCE /* CDVNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVNotification.m; path = org.apache.cordova.dialogs/CDVNotification.m; sourceTree = "<group>"; };
 		D4A0D8751607E02300AEF8BB /* Default-568h@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x~iphone.png"; sourceTree = "<group>"; };
 		EA884559809F4DF981958B5D /* TCPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TCPlugin.m; path = com.phonegap.plugins.twilioclient/TCPlugin.m; sourceTree = "<group>"; };
 		EB87FDF21871DA7A0020F90C /* merges */ = {isa = PBXFileReference; lastKnownFileType = folder; name = merges; path = ../../merges; sourceTree = "<group>"; };
@@ -220,6 +227,7 @@
 				308D052D1370CCF300D202BF /* icons */,
 				308D05311370CCF300D202BF /* splash */,
 				8D1107310486CEB800E47090 /* TwilioClient-Info.plist */,
+				42757BD293134346B06A4415 /* CDVNotification.bundle */,
 			);
 			name = Resources;
 			path = TwilioClient/Resources;
@@ -256,6 +264,10 @@
 			children = (
 				EA884559809F4DF981958B5D /* TCPlugin.m */,
 				5E910C02B4844387B2815447 /* TCPlugin.h */,
+				C44F3CB08F8E4A2997FD8DCE /* CDVNotification.m */,
+				0D225ABCB48D4773A745FEF8 /* CDVNotification.h */,
+				55EF2166C7B24C95A64D2503 /* CDVVibration.m */,
+				A7D919CB37564A0D9CC60BBA /* CDVVibration.h */,
 			);
 			name = Plugins;
 			path = TwilioClient/Plugins;
@@ -419,6 +431,7 @@
 				7E7966E11810823500FA85AD /* icon-50@2x.png in Resources */,
 				7E7966E51810823500FA85AD /* icon-76@2x.png in Resources */,
 				30FC414916E50CA1004E6F35 /* icon-72@2x.png in Resources */,
+				767BB60A46214CE4868D8C7A /* CDVNotification.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -451,6 +464,8 @@
 				1D3623260D0F684500981E51 /* AppDelegate.m in Sources */,
 				302D95F114D2391D003F00A1 /* MainViewController.m in Sources */,
 				A2F4E9D205BB48C88D900096 /* TCPlugin.m in Sources */,
+				A5EED52212A642D5A47ACEFE /* CDVNotification.m in Sources */,
+				171CBA83A3BD4D5B8B161323 /* CDVVibration.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

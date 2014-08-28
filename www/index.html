@@ -17,28 +17,158 @@
     specific language governing permissions and limitations
     under the License.
 -->
-<html>
-    <head>
-        <meta charset="utf-8" />
-        <meta name="format-detection" content="telephone=no" />
-        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
-        <link rel="stylesheet" type="text/css" href="css/index.css" />
-        <meta name="msapplication-tap-highlight" content="no" />
-        <title>Hello World</title>
-    </head>
-    <body>
-        <div class="app">
-            <h1>Apache Cordova</h1>
-            <div id="deviceready" class="blink">
-                <p class="event listening">Connecting to Device</p>
-                <p class="event received">Device is Ready</p>
+<html class="ui-mobile">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+
+    <link rel="stylesheet" type="text/css" href="http://code.jquery.com/mobile/1.4.3/jquery.mobile-1.4.3.min.css" />
+    <link rel="stylesheet" type="text/css" href="http://dev.jtsage.com/cdn/simpledialog/latest/jquery.mobile.simpledialog.min.css" />
+
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/mobile/1.4.3/jquery.mobile-1.4.3.min.js"></script>
+    <script type="text/javascript" src="http://dev.jtsage.com/cdn/simpledialog/latest/jquery.mobile.simpledialog2.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="//static.twilio.com/libs/twiliojs/1.2/twilio.min.js"></script>
+
+    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/index.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/tcPlugin.js"></script>
+
+    <script type="text/javascript" charset="utf-8">
+
+Twilio.Device.ready(function(device) {
+    $("#log").text("Ready");
+});
+
+Twilio.Device.error(function(error) {
+    $("#log").text("Error: " + error.message);
+});
+
+Twilio.Device.connect(function(conn) {
+    callLength = $.now();
+    $("#log").text("Successfully established call");
+});
+
+Twilio.Device.disconnect(function(conn) {
+    show_call_end_status(conn);
+});
+
+Twilio.Device.cancel(function(conn) {
+    show_call_end_status(conn);
+});
+
+Twilio.Device.incoming(function(conn) {
+    var on_call = "#{current_user.on_call?}";
+    if (on_call == "true") {
+
+        var message = "";
+
+        if (conn.parameters.From.match(/^client:/) == null) {
+            message = "Incoming user call from " + conn.parameters.From + ". Pickup?";
+        } else if (conn.parameters.From != conn.parameters.To) {
+            message = "Incoming conference request from " + conn.parameters.From + " accept?";
+        }
+
+        var customModal = $('<div class="incoming_call" id="dialog-confirm" title="Accept the call?"><p></p></div>');
+        customModal.find('p').html(message);
+
+        var functional_id = ("dialog-confirm" + conn.parameters.From).replace(" ", "-");
+
+        $('<div>').simpledialog2({
+            mode: 'blank',
+            headerText: 'Accept the call?',
+            headerClose: true,
+            blankContent: '<p>' +
+                message +
+                '</p>' +
+            // NOTE: the use of rel="close" causes this button to close the dialog.
+            "<a rel='close' data-role='button' href='#'>Close</a>"
+        })
+    }
+});
+
+    </script>
+
+    <meta name="msapplication-tap-highlight" content="no" />
+    <title>Hello World</title>
+</head>
+
+<body onload="init();" class="ui-mobile-viewport ui-overlay-c">
+    <div id="loginPage" data-role="page" data-url="loginPage" class="ui-page ui-page-active">
+        <div class="ui-panel-wrapper">
+            <div data-role="header" class="ui-header ui-bar-inherit" role="banner">
+                <h1 class="ui-title" role="heading" aria-level="1">Agent Login</h1>
+            </div>
+
+            <div data-role="content" class="ui-content" role="main">
+                <form accept-charset="UTF-8" action="http://my-med-labs-call-center.herokuapp.com/users/sign_in" id="loginForm" method="post">
+                    <div data-role="fieldcontain" class="ui-field-contain ui-body ui-br">
+                        <label for="email">Email:</label>
+                        <input type="text" name="email" id="email" class="ui-input-text ui-body-c ui-corner-all ui-shadow-inset">
+                    </div>
+
+                    <div data-role="fieldcontain" class="ui-field-contain ui-body ui-br">
+                        <label for="password">Password:</label>
+                        <input type="password" name="password" id="password" class="ui-input-text ui-body-c ui-corner-all ui-shadow-inset">
+                    </div>
+
+                    <input type="submit" value="Login" id="submitButton" data-theme="a">
+                </form>
+
+                <a href="/users/sign_up">Sign up</a>
+
+                <a href="/users/password/new">Forgot your password?</a>
+
+                <a id="dashboardPageUrl" href="#dashboardPage" data-role="button" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-up-c">Show</a>
+
             </div>
         </div>
-        <script type="text/javascript" src="cordova.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
-        <script type="text/javascript">
-            app.initialize();
-        </script>
-    </body>
+    </div>
+
+    <div id="dashboardPage" data-role="page" data-url="dashboardPage" class="ui-page">
+        <div class="ui-panel-wrapper">
+            <div data-role="header" class="ui-header ui-bar-inherit" role="banner">
+                <h1 class="ui-title" role="heading" aria-level="1" id="agentSlug"></h1>
+            </div>
+
+            <div data-role="content" class="ui-content" role="main">
+                <a href="#" id="opendialog" data-role="button">Open Dialog</a>
+
+                <div class="ui-grid-a">
+                    <div class="ui-block-a">
+                        <input ui-block-aid="ToNumber" name="ToNumber" data-mini="true" type="text" name="name" id="ToNumber" placeholder="Enter a phone number to call" />
+                    </div>
+                    <div class="ui-block-b"><a href="#" data-role="button" data-icon="check" data-theme="b" onclick="dial();" data-mini="true">Dial</a>
+                    </div>
+                </div>
+
+                <div class="ui-grid-solo">
+                    <div class="ui-block-a">
+                        <a href="#" data-role="button" data-icon="delete" data-theme="b" onclick="hangup();" data-mini="true">Hangup</a>
+                    </div>
+                </div>
+
+                <div data-role="fieldcontain">
+                    <h3>Current Call status</h3>
+                    <div id="log" class="ui-bar ui-corner-all ui-bar-a" style="margin-bottom:1em;">
+                        Loading pigeons...
+                    </div>
+                </div>
+
+                <h3>All Agents</h3>
+                <ul data-role="listview" data-inset="true" class="ui-listview ui-listview-inset ui-corner-all ui-shadow">
+                    <li class="ui-li ui-li-static ui-btn-up-c">Acura</li>
+                    <li class="ui-li ui-li-static ui-btn-up-c">Audi</li>
+                    <li class="ui-li ui-li-static ui-btn-up-c">BMW</li>
+                    <li class="ui-li ui-li-static ui-btn-up-c">Cadillac</li>
+                    <li class="ui-li ui-li-static ui-btn-up-c">Ferrari</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+
 </html>

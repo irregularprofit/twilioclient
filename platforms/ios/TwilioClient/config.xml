@@ -19,6 +19,9 @@
     <feature name="LocalStorage">
         <param name="ios-package" value="CDVLocalStorage" />
     </feature>
+    <feature name="Vibration">
+        <param name="ios-package" value="CDVVibration" />
+    </feature>
     <name>TwilioClient</name>
     <description>
         A sample Apache Cordova application that responds to the deviceready event.
@@ -28,9 +31,10 @@
     </author>
     <content src="index.html" />
     <access origin="*" />
-    <widget>
-        <feature name="TCPlugin">
-            <param name="ios-package" value="TCPlugin" />
-        </feature>
-    </widget>
+    <feature name="Notification">
+        <param name="ios-package" value="CDVNotification" />
+    </feature>
+    <feature name="TCPlugin">
+        <param name="ios-package" value="TCPlugin" />
+    </feature>
 </widget>
