@@ -22,6 +22,9 @@
     <feature name="Vibration">
         <param name="ios-package" value="CDVVibration" />
     </feature>
+    <feature name="PushPlugin">
+        <param name="ios-package" value="PushPlugin" />
+    </feature>
     <name>TwilioClient</name>
     <description>
         A sample Apache Cordova application that responds to the deviceready event.
