@@ -1,3 +1,8 @@
+var callLength;
+var currentCalller;
+var connection;
+
+
 function init() {
     document.addEventListener("deviceready", deviceReady, true);
     checkPreAuth();
@@ -33,14 +38,18 @@ function handleLogin() {
         }, function(res) {
             if (res["success"]) {
                 //store
-                window.localStorage["email"] = u;
+                window.localStorage["email"] = u.toLowerCase();
                 window.localStorage["password"] = p;
                 window.localStorage["name"] = res["name"];
                 window.localStorage["slug"] = res["slug"];
                 window.localStorage["token"] = res["token"];
+                window.localStorage["auth_token"] = res["auth_token"];
 
                 twilioDeviceReady();
-                $.mobile.changePage( "#dashboardPage", { transition: "slideup", allowSamePageTransition: true} );
+                $.mobile.changePage("#dashboardPage", {
+                    transition: "slideup",
+                    allowSamePageTransition: true
+                });
             } else {
                 navigator.notification.alert("Your login failed", function() {});
             }
@@ -54,39 +63,77 @@ function handleLogin() {
     return false;
 }
 
-
-var callLength;
-var currentCalller;
-
 function twilioDeviceReady() {
     $("#agentSlug").text(window.localStorage["name"]);
 
+    setupTwilioDevice();
+
+    getAllActiveAgents();
+}
+
+function setupTwilioDevice() {
     Twilio.Device.setup(window.localStorage["token"], {
         debug: true
     });
 }
 
+function getUpdatedToken() {
+    $.get("http://my-med-labs-call-center.herokuapp.com/api/users/get_token", {
+        user_email: window.localStorage["email"],
+        user_token: window.localStorage["auth_token"]
+    }, function(res) {
+        if (res["success"] && window.localStorage["slug"] == res["slug"]) {
+            window.localStorage["token"] = res["token"];
+            setupTwilioDevice();
+            return true;
+        } else {
+            return false;
+        }
+    }, "json");
+}
 
-function show_call_end_status(conn) {
-    var functional_id = ("dialog-confirm" + conn.parameters.From).replace(" ", "-");
-    // maybe only close the call that was otherwise picked
-    $("#" + functional_id).dialog("close");
-    $("#" + functional_id).remove();
+function isUserOnCall() {
+    $.get("http://my-med-labs-call-center.herokuapp.com/api/users/user_on_call", {
+        user_email: window.localStorage["email"],
+        user_token: window.localStorage["auth_token"]
+    }, function(res) {
+        if (res["success"]) {
+            return true;
+        } else {
+            return false;
+        }
+    }, "json");
+}
 
-    var difference = ($.now() - callLength) / 1000;
-    currentCalller = "";
+function getAllActiveAgents() {
+    $.get("http://my-med-labs-call-center.herokuapp.com/api/users/get_active_agents", {
+        user_email: window.localStorage["email"],
+        user_token: window.localStorage["auth_token"]
+    }, function(res) {
+        if (res["success"]) {
+            res["users"].forEach(addAgentToList);
+            $('ul#users').listview('refresh');
 
-    if (isNaN(difference)) {
-        var message = "Call ended";
-    } else {
-        var message = "Call ended. Call lasted " + difference + " seconds";
-    }
+            $("ul#users").on("click", "li", function() {
+                conference($(this).attr('rel'), currentCalller);
+            });
 
-    $("#log").text(message);
+        } else {
+            return false;
+        }
+    }, "json");
+}
+
+function addAgentToList(agent) {
+    $('ul#users').append('<li class="ui-li ui-li-static ui-body-inherit ui-btn-active" rel="' + agent["slug"] + '">' + agent["name"] + '</li>');
 }
 
 function conference(name, number) {
+    $("#log").text("Now dialing to " + name + "...");
+
     $.post("http://my-med-labs-call-center.herokuapp.com/init_conference", {
+        user_email: window.localStorage["email"],
+        user_token: window.localStorage["auth_token"],
         agent: name,
         from: number
     });
@@ -102,25 +149,32 @@ function dial() {
     Twilio.Device.connect(params);
 }
 
-function check_rooms() {
-    $.post("http://my-med-labs-call-center.herokuapp.com/check_rooms");
-}
-
-function check_logs() {
-    $.post("http://my-med-labs-call-center.herokuapp.com/check_logs");
-}
-
 function hangup() {
     Twilio.Device.disconnectAll();
+    show_call_end_status();
 }
 
+function show_call_end_status() {
+    var difference = ($.now() - callLength) / 1000;
+    if (isNaN(difference)) {
+        var message = "Call ended";
+    } else {
+        var message = "Call ended. Call lasted " + difference + " seconds";
+    }
 
-$("ul#users li").click(function() {
-    conference($(this).attr('rel'), currentCalller);
-});
+    $("#log").text(message);
+}
 
+function accept() {
+    connection.accept();
+    $("#answerCallDialog").popup( "close" );
+    $("#log").text("Successfully established call");
+    callLength = $.now();
+}
 
-
-
-
-
+// FIXME: this doesn't work
+function decline() {
+    connection.disconnect();
+    // connection = null;
+    $("#answerCallDialog").popup( "close" );
+}
