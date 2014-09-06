@@ -26,72 +26,72 @@
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
 
     <link rel="stylesheet" type="text/css" href="http://code.jquery.com/mobile/1.4.3/jquery.mobile-1.4.3.min.css" />
-    <link rel="stylesheet" type="text/css" href="http://dev.jtsage.com/cdn/simpledialog/latest/jquery.mobile.simpledialog.min.css" />
 
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
     <script type="text/javascript" src="http://code.jquery.com/mobile/1.4.3/jquery.mobile-1.4.3.min.js"></script>
-    <script type="text/javascript" src="http://dev.jtsage.com/cdn/simpledialog/latest/jquery.mobile.simpledialog2.min.js"></script>
     <script type="text/javascript" charset="utf-8" src="//static.twilio.com/libs/twiliojs/1.2/twilio.min.js"></script>
 
     <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
     <script type="text/javascript" charset="utf-8" src="js/index.js"></script>
     <script type="text/javascript" charset="utf-8" src="js/tcPlugin.js"></script>
-
-    <script src="js/plugins/PushNotification.js"></script>
-
+    <script type="text/javascript" charset="utf-8" src="js/plugins/PushNotification.js"></script>
     <script type="text/javascript" charset="utf-8">
+    Twilio.Device.ready(function(device) {
+        $("#log").text("Ready");
+    });
 
-Twilio.Device.ready(function(device) {
-    $("#log").text("Ready");
-});
 
-Twilio.Device.error(function(error) {
-    $("#log").text("Error: " + error.message);
-});
-
-Twilio.Device.connect(function(conn) {
-    callLength = $.now();
-    $("#log").text("Successfully established call");
-});
-
-Twilio.Device.disconnect(function(conn) {
-    show_call_end_status(conn);
-});
-
-Twilio.Device.cancel(function(conn) {
-    show_call_end_status(conn);
-});
-
-Twilio.Device.incoming(function(conn) {
-    var on_call = "#{current_user.on_call?}";
-    if (on_call == "true") {
-
-        var message = "";
-
-        if (conn.parameters.From.match(/^client:/) == null) {
-            message = "Incoming user call from " + conn.parameters.From + ". Pickup?";
-        } else if (conn.parameters.From != conn.parameters.To) {
-            message = "Incoming conference request from " + conn.parameters.From + " accept?";
+    Twilio.Device.error(function(error) {
+        if (!getUpdatedToken()) {
+            $("#log").text(error.message);
         }
+    });
 
-        var customModal = $('<div class="incoming_call" id="dialog-confirm" title="Accept the call?"><p></p></div>');
-        customModal.find('p').html(message);
+    // FIXME: this doesn't work
+    Twilio.Device.connect(function(conn) {
+        $("#log").text("Successfully established call");
+        callLength = $.now();
+    });
 
-        var functional_id = ("dialog-confirm" + conn.parameters.From).replace(" ", "-");
+    // FIXME: this doesn't work
+    Twilio.Device.disconnect(function(conn) {
+        show_call_end_status();
+    });
 
-        $('<div>').simpledialog2({
-            mode: 'blank',
-            headerText: 'Accept the call?',
-            headerClose: true,
-            blankContent: '<p>' +
-                message +
-                '</p>' +
-            // NOTE: the use of rel="close" causes this button to close the dialog.
-            "<a rel='close' data-role='button' href='#'>Close</a>"
-        })
-    }
-});
+    Twilio.Device.incoming(function(conn) {
+        conn.parameters(function(parameters) {
+            var from = parameters.From;
+            var to = parameters.To;
 
+            $.get("http://my-med-labs-call-center.herokuapp.com/api/users/user_on_call", {
+                user_email: window.localStorage["email"],
+                user_token: window.localStorage["auth_token"]
+            }, function(res) {
+                if (res["success"]) {
+                    if (from.match(/^client:/) == null) {
+                        var message = "Incoming user call from " + from + ". Pickup?";
+                        currentCalller = from;
+                        alert(currentCalller);
+                    } else if (from != to) {
+                        var message = "Incoming conference request from " + from + " accept?";
+                    }
+
+                    $("div#callDialogMessage").html(message);
+
+                    $("#answerCallDialog").popup({
+                        dismissible: false,
+                        overlayTheme: "b",
+                        theme: "a"
+                    });
+
+                    $("#answerCallDialog").popup("open");
+
+                    connection = conn;
+                }
+            }, "json");
+        });
+
+    });
     </script>
 
     <meta name="msapplication-tap-highlight" content="no" />
@@ -121,10 +121,7 @@ Twilio.Device.incoming(function(conn) {
                 </form>
 
                 <a href="/users/sign_up">Sign up</a>
-
                 <a href="/users/password/new">Forgot your password?</a>
-
-                <a id="dashboardPageUrl" href="#dashboardPage" data-role="button" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-up-c">Show</a>
 
             </div>
         </div>
@@ -137,19 +134,23 @@ Twilio.Device.incoming(function(conn) {
             </div>
 
             <div data-role="content" class="ui-content" role="main">
-                <a href="#" id="opendialog" data-role="button">Open Dialog</a>
 
                 <div class="ui-grid-a">
                     <div class="ui-block-a">
                         <input ui-block-aid="ToNumber" name="ToNumber" data-mini="true" type="text" name="name" id="ToNumber" placeholder="Enter a phone number to call" />
                     </div>
-                    <div class="ui-block-b"><a href="#" data-role="button" data-icon="check" data-theme="b" onclick="dial();" data-mini="true">Dial</a>
+                    <div class="ui-block-b">
+                        <a href="#" data-role="button" data-icon="check" data-theme="b" onclick="dial();" data-mini="true">
+                            Dial
+                        </a>
                     </div>
                 </div>
 
                 <div class="ui-grid-solo">
                     <div class="ui-block-a">
-                        <a href="#" data-role="button" data-icon="delete" data-theme="b" onclick="hangup();" data-mini="true">Hangup</a>
+                        <a href="#" data-role="button" data-icon="delete" data-theme="b" onclick="hangup();" data-mini="true">
+                            Hangup
+                        </a>
                     </div>
                 </div>
 
@@ -161,16 +162,29 @@ Twilio.Device.incoming(function(conn) {
                 </div>
 
                 <h3>All Agents</h3>
-                <ul data-role="listview" data-inset="true" class="ui-listview ui-listview-inset ui-corner-all ui-shadow">
-                    <li class="ui-li ui-li-static ui-btn-up-c">Acura</li>
-                    <li class="ui-li ui-li-static ui-btn-up-c">Audi</li>
-                    <li class="ui-li ui-li-static ui-btn-up-c">BMW</li>
-                    <li class="ui-li ui-li-static ui-btn-up-c">Cadillac</li>
-                    <li class="ui-li ui-li-static ui-btn-up-c">Ferrari</li>
+                <ul data-role="listview" data-inset="true" id="users" class="ui-listview ui-listview-inset ui-corner-all ui-shadow">
                 </ul>
             </div>
         </div>
     </div>
+
+    <div data-role="popup" id="answerCallDialog" style="max-width:400px;" class="ui-corner-all">
+        <div data-role="header" class="ui-corner-top">
+            <h4 class="ui-title" role="heading" aria-level="1">Incoming Call</h4>
+        </div>
+        <div data-role="content" class="ui-corner-bottom ui-content">
+            <div class="ui-title" id="callDialogMessage"></div>
+
+            <a href="#" onclick="accept();" data-role="button" data-theme="a" data-corners="true" data-shadow="true" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-up-a">Accept
+            </a>
+
+            <a href="#" onclick="decline();" data-role="button" data-theme="b" data-corners="true" data-shadow="true" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-up-b">Decline
+            </a>
+
+        </div>
+    </div>
+
+
 </body>
 
 </html>
