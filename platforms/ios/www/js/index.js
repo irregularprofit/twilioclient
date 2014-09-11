@@ -140,9 +140,6 @@ function conference(name, number) {
 }
 
 function dial() {
-    alert(2);
-
-    alert($("#ToNumber").val());
     params = {
         "PhoneNumber": $("#ToNumber").val()
     };
