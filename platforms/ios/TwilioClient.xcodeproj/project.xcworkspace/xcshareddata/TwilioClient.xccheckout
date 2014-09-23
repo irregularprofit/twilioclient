@@ -10,29 +10,29 @@
 	<string>TwilioClient</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>D9A571DB-C314-4910-92AB-E9C4501786BF</key>
+		<key>45351253D9678965F4F7EB64E029064EA5132515</key>
 		<string>ssh://github.com/irregularprofit/twilioclient.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>platforms/ios/TwilioClient.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>D9A571DB-C314-4910-92AB-E9C4501786BF</key>
+		<key>45351253D9678965F4F7EB64E029064EA5132515</key>
 		<string>../../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>ssh://github.com/irregularprofit/twilioclient.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>D9A571DB-C314-4910-92AB-E9C4501786BF</string>
+	<string>45351253D9678965F4F7EB64E029064EA5132515</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>D9A571DB-C314-4910-92AB-E9C4501786BF</string>
+			<string>45351253D9678965F4F7EB64E029064EA5132515</string>
 			<key>IDESourceControlWCCName</key>
 			<string>twilioclient</string>
 		</dict>
