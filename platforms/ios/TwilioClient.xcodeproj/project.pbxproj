@@ -49,6 +49,8 @@
 		D4A0D8761607E02300AEF8BB /* Default-568h@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = D4A0D8751607E02300AEF8BB /* Default-568h@2x~iphone.png */; };
 		D63FE524731543C4BDA645AB /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4272C68D3AA9467DA9978A2E /* AVFoundation.framework */; };
 		F9533E04B7E04379A4A0A0D6 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D5F58A4B0AC4AFDA1B8CFA1 /* AudioToolbox.framework */; };
+		26480DB3F98E42A19416A9AC /* AppDelegate+notification.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F2275286D844E75A2E3F0E5 /* AppDelegate+notification.m */; };
+		91CC6E5A5650496FB3FD59C4 /* PushPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = D368F6491F6648BB9364F4B6 /* PushPlugin.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -127,6 +129,10 @@
 		EB87FDF31871DA8E0020F90C /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; name = www; path = ../../www; sourceTree = "<group>"; };
 		EB87FDF41871DAF40020F90C /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = ../../config.xml; sourceTree = "<group>"; };
 		F840E1F0165FE0F500CFE078 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = TwilioClient/config.xml; sourceTree = "<group>"; };
+		3F2275286D844E75A2E3F0E5 /* AppDelegate+notification.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "AppDelegate+notification.m"; path = "com.phonegap.plugins.PushPlugin/AppDelegate+notification.m"; sourceTree = "<group>"; fileEncoding = 4; };
+		D368F6491F6648BB9364F4B6 /* PushPlugin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "PushPlugin.m"; path = "com.phonegap.plugins.PushPlugin/PushPlugin.m"; sourceTree = "<group>"; fileEncoding = 4; };
+		779D0EB3007A44C3BF1B2FFF /* AppDelegate+notification.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "AppDelegate+notification.h"; path = "com.phonegap.plugins.PushPlugin/AppDelegate+notification.h"; sourceTree = "<group>"; fileEncoding = 4; };
+		D6064709276E4358817F2565 /* PushPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "PushPlugin.h"; path = "com.phonegap.plugins.PushPlugin/PushPlugin.h"; sourceTree = "<group>"; fileEncoding = 4; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -268,6 +274,10 @@
 				0D225ABCB48D4773A745FEF8 /* CDVNotification.h */,
 				55EF2166C7B24C95A64D2503 /* CDVVibration.m */,
 				A7D919CB37564A0D9CC60BBA /* CDVVibration.h */,
+				3F2275286D844E75A2E3F0E5 /* AppDelegate+notification.m */,
+				D368F6491F6648BB9364F4B6 /* PushPlugin.m */,
+				779D0EB3007A44C3BF1B2FFF /* AppDelegate+notification.h */,
+				D6064709276E4358817F2565 /* PushPlugin.h */,
 			);
 			name = Plugins;
 			path = TwilioClient/Plugins;
@@ -466,6 +476,8 @@
 				A2F4E9D205BB48C88D900096 /* TCPlugin.m in Sources */,
 				A5EED52212A642D5A47ACEFE /* CDVNotification.m in Sources */,
 				171CBA83A3BD4D5B8B161323 /* CDVVibration.m in Sources */,
+				26480DB3F98E42A19416A9AC /* AppDelegate+notification.m in Sources */,
+				91CC6E5A5650496FB3FD59C4 /* PushPlugin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

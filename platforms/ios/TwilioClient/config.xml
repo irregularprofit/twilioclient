@@ -37,4 +37,7 @@
     <feature name="TCPlugin">
         <param name="ios-package" value="TCPlugin" />
     </feature>
+    <feature name="PushPlugin">
+        <param name="ios-package" value="PushPlugin" />
+    </feature>
 </widget>

@@ -40,6 +40,12 @@
                             "xml": "<feature name=\"TCPlugin\"><param name=\"ios-package\" value=\"TCPlugin\" /></feature>",
                             "count": 1
                         }
+                    ],
+                    "/*": [
+                        {
+                            "xml": "<feature name=\"PushPlugin\"><param name=\"ios-package\" value=\"PushPlugin\" /></feature>",
+                            "count": 1
+                        }
                     ]
                 }
             },
@@ -57,6 +63,9 @@
     },
     "installed_plugins": {
         "com.phonegap.plugins.twilioclient": {
+            "PACKAGE_NAME": "com.mymedlab.twilioclient"
+        },
+        "com.phonegap.plugins.PushPlugin": {
             "PACKAGE_NAME": "com.mymedlab.twilioclient"
         }
     },
