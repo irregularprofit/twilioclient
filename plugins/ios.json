@@ -10,7 +10,7 @@
                     "AudioToolbox.framework": [
                         {
                             "xml": "true",
-                            "count": 2
+                            "count": 1
                         }
                     ]
                 }
@@ -21,10 +21,6 @@
                         {
                             "xml": "<feature name=\"Notification\"><param name=\"ios-package\" value=\"CDVNotification\" /></feature>",
                             "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"Vibration\"><param name=\"ios-package\" value=\"CDVVibration\" /></feature>",
-                            "count": 1
                         }
                     ]
                 }
@@ -33,9 +29,6 @@
     },
     "installed_plugins": {
         "org.apache.cordova.dialogs": {
-            "PACKAGE_NAME": "com.mymedlab.twilioclient"
-        },
-        "org.apache.cordova.vibration": {
             "PACKAGE_NAME": "com.mymedlab.twilioclient"
         }
     },
