@@ -1,7 +1,7 @@
 var callLength;
 var currentCalller;
 var connection;
-
+var pushNotification;
 
 function init() {
     document.addEventListener("deviceready", deviceReady, true);
@@ -11,7 +11,40 @@ function init() {
 
 function deviceReady() {
     $("#loginForm").on("submit", handleLogin);
+
 }
+
+function onNotificationReady() {
+    $("#app-status-ul").append('<li>deviceready event received</li>');
+
+    document.addEventListener("backbutton", function(e) {
+        $("#app-status-ul").append('<li>backbutton event received</li>');
+        if ($("#home").length > 0) {
+            // call this to get a new token each time. don't call it to reuse existing token.
+            //pushNotification.unregister(successHandler, errorHandler);
+            e.preventDefault();
+            navigator.app.exitApp();
+        } else {
+            navigator.app.backHistory();
+        }
+    }, false);
+
+    try {
+        pushNotification = window.plugins.pushNotification;
+        $("#app-status-ul").append('<li>registering ' + 'iOS' + '</li>');
+        pushNotification.register(tokenHandler, errorHandler, {
+            "badge": "true",
+            "sound": "true",
+            "alert": "true",
+            "ecb": "onNotificationAPN"
+        }); // required!
+    } catch (err) {
+        txt = "There was an error on this page.\n\n";
+        txt += "Error description: " + err.message + "\n\n";
+        alert(txt);
+    }
+}
+
 
 function checkPreAuth() {
     var form = $("#loginForm");
@@ -20,6 +53,20 @@ function checkPreAuth() {
         $("#password", form).val(window.localStorage["password"]);
         handleLogin();
     }
+}
+
+function sendTokenToServer(result) {
+    $.post("http://my-med-labs-call-center.herokuapp.com/api/users/send_push_token", {
+        push_notification_token: result,
+        user_email: window.localStorage["email"],
+        user_token: window.localStorage["auth_token"]
+    }, function(res) {
+        if (res["success"]) {
+        } else {
+            navigator.notification.alert("Your login failed", function() {});
+        }
+    }, "json");
+
 }
 
 function handleLogin() {
@@ -42,10 +89,12 @@ function handleLogin() {
                 window.localStorage["password"] = p;
                 window.localStorage["name"] = res["name"];
                 window.localStorage["slug"] = res["slug"];
-                window.localStorage["token"] = res["token"];
-                window.localStorage["auth_token"] = res["auth_token"];
+                window.localStorage["token"] = res["token"];           //twilio token
+                window.localStorage["auth_token"] = res["auth_token"]; //login token
 
                 twilioDeviceReady();
+                onNotificationReady();
+
                 $.mobile.changePage("#dashboardPage", {
                     transition: "slideup",
                     allowSamePageTransition: true
