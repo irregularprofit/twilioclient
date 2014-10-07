@@ -2,49 +2,14 @@ var callLength;
 var currentCalller;
 var connection;
 var pushNotification;
+var dialBackNumber;
 
 function init() {
     document.addEventListener("deviceready", deviceReady, true);
+    document.addEventListener("resume", deviceResume, false);
     checkPreAuth();
     delete init;
 }
-
-function deviceReady() {
-    $("#loginForm").on("submit", handleLogin);
-
-}
-
-function onNotificationReady() {
-    $("#app-status-ul").append('<li>deviceready event received</li>');
-
-    document.addEventListener("backbutton", function(e) {
-        $("#app-status-ul").append('<li>backbutton event received</li>');
-        if ($("#home").length > 0) {
-            // call this to get a new token each time. don't call it to reuse existing token.
-            //pushNotification.unregister(successHandler, errorHandler);
-            e.preventDefault();
-            navigator.app.exitApp();
-        } else {
-            navigator.app.backHistory();
-        }
-    }, false);
-
-    try {
-        pushNotification = window.plugins.pushNotification;
-        $("#app-status-ul").append('<li>registering ' + 'iOS' + '</li>');
-        pushNotification.register(tokenHandler, errorHandler, {
-            "badge": "true",
-            "sound": "true",
-            "alert": "true",
-            "ecb": "onNotificationAPN"
-        }); // required!
-    } catch (err) {
-        txt = "There was an error on this page.\n\n";
-        txt += "Error description: " + err.message + "\n\n";
-        alert(txt);
-    }
-}
-
 
 function checkPreAuth() {
     var form = $("#loginForm");
@@ -55,18 +20,8 @@ function checkPreAuth() {
     }
 }
 
-function sendTokenToServer(result) {
-    $.post("http://my-med-labs-call-center.herokuapp.com/api/users/send_push_token", {
-        push_notification_token: result,
-        user_email: window.localStorage["email"],
-        user_token: window.localStorage["auth_token"]
-    }, function(res) {
-        if (res["success"]) {
-        } else {
-            navigator.notification.alert("Your login failed", function() {});
-        }
-    }, "json");
-
+function deviceReady() {
+    $("#loginForm").on("submit", handleLogin);
 }
 
 function handleLogin() {
@@ -224,3 +179,108 @@ function decline() {
     // connection = null;
     $("#answerCallDialog").popup( "close" );
 }
+
+function dialBackToServer(from) {
+    $.get("http://my-med-labs-call-center.herokuapp.com/api/users/receive_dialback", {
+        from: from,
+        user_email: window.localStorage["email"],
+        user_token: window.localStorage["auth_token"]
+    }, function(res) {
+        if (res["success"]) {
+        }
+    }, "json");
+}
+
+function shouldDialBackServer() {
+    alert("dial back number " + window.localStorage["dial_back_number"]);
+    if (window.localStorage["dial_back_number"] != "undefined") {
+        dialBackToServer(window.localStorage["dial_back_number"]);
+        window.localStorage["dial_back_number"] = "undefined";
+    }
+}
+
+function deviceResume() {
+    shouldDialBackServer();
+}
+
+// handle APNS notifications for iOS
+function onNotificationAPN(e) {
+
+    alert(e.called_id);
+    alert(e.foreground);
+
+    if (e.called_id) {
+        window.localStorage["dial_back_number"] = e.called_id;
+    }
+
+    if (e.sound) {
+        // playing a sound also requires the org.apache.cordova.media plugin
+        var snd = new Media(e.sound);
+        snd.play();
+    }
+
+    if (e.badge) {
+        pushNotification.setApplicationIconBadgeNumber(successHandler, e.badge);
+    }
+}
+
+function sendTokenToServer(result) {
+    $.post("http://my-med-labs-call-center.herokuapp.com/api/users/send_push_token", {
+        push_notification_token: result,
+        user_email: window.localStorage["email"],
+        user_token: window.localStorage["auth_token"]
+    }, function(res) {
+        if (res["success"]) {
+        } else {
+            navigator.notification.alert("Your login failed", function() {});
+        }
+    }, "json");
+}
+
+function tokenHandler(result) {
+    // $("#app-status-ul").append('<li>token: ' + result + '</li>');
+    // Your iOS push server needs to know the token before it can push to this device
+    // here is where you might want to send it the token for later use.
+    sendTokenToServer(result);
+}
+
+function successHandler(result) {
+    // $("#app-status-ul").append('<li>success:' + result + '</li>');
+}
+
+function errorHandler(error) {
+    // $("#app-status-ul").append('<li>error:' + error + '</li>');
+}
+
+function onNotificationReady() {
+    // $("#app-status-ul").append('<li>deviceready event received</li>');
+
+    document.addEventListener("backbutton", function(e) {
+        // $("#app-status-ul").append('<li>backbutton event received</li>');
+        if ($("#home").length > 0) {
+            // call this to get a new token each time. don't call it to reuse existing token.
+            //pushNotification.unregister(successHandler, errorHandler);
+            e.preventDefault();
+            navigator.app.exitApp();
+        } else {
+            navigator.app.backHistory();
+        }
+    }, false);
+
+    try {
+        pushNotification = window.plugins.pushNotification;
+        // $("#app-status-ul").append('<li>registering ' + 'iOS' + '</li>');
+        pushNotification.register(tokenHandler, errorHandler, {
+            "badge": "true",
+            "sound": "true",
+            "alert": "true",
+            "ecb": "onNotificationAPN"
+        }); // required!
+    } catch (err) {
+        txt = "There was an error on this page.\n\n";
+        txt += "Error description: " + err.message + "\n\n";
+        alert(txt);
+    }
+}
+
+
